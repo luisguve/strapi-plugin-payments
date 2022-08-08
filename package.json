@@ -17,10 +17,7 @@
     "description": "Accept payments with Stripe and Paypal",
     "kind": "plugin"
   },
-  "dependencies": {
-    "@babel/core": "^7.0.0",
-    "@strapi/helper-plugin": "^4.0.0"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "@strapi/strapi": "^4.0.0"
   },
