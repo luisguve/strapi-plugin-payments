@@ -1,24 +1,43 @@
 {
-  "name": "Payments",
-  "version": "0.0.0",
-  "description": "This is the description of the plugin.",
+  "name": "strapi-plugin-payments",
+  "version": "0.0.1",
+  "keywords": [
+    "strapi",
+    "strapi-plugin",
+    "payments",
+    "strapi",
+    "paypal",
+    "api",
+    "backend"
+  ],
+  "description": "Strapi plugin to accept payments easily",
   "strapi": {
-    "name": "Payments",
-    "description": "Description of Payments plugin",
+    "displayName": "Payments",
+    "name": "payments",
+    "description": "Accept payments with Stripe and Paypal",
     "kind": "plugin"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@babel/core": "^7.0.0",
+    "@strapi/helper-plugin": "^4.0.0"
+  },
+  "peerDependencies": {
+    "@strapi/strapi": "^4.0.0"
+  },
   "author": {
-    "name": "A Strapi developer"
+    "name": "Luis G. Villegas",
+    "email": "luisguveal@gmail.com"
   },
   "maintainers": [
     {
-      "name": "A Strapi developer"
+      "name": "Luis G. Villegas",
+      "email": "luisguveal@gmail.com"
     }
   ],
   "engines": {
-    "node": ">=12.x.x <=16.x.x",
+    "node": ">=12.x. <=16.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "repository": "https://github.com/luisguve/strapi-plugin-payments"
 }
