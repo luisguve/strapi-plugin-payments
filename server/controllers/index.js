@@ -1,7 +1,12 @@
 'use strict';
 
-const myController = require('./my-controller');
+const admin__stripe = require('./admin__stripe');
+const admin__paypal = require('./admin__paypal');
+
+// const orders = require('./orders');
 
 module.exports = {
-  myController,
+  admin__stripe,
+  admin__paypal,
+  // orders
 };
