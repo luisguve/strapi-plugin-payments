@@ -171,22 +171,14 @@ const SettingsPage = () => {
                 label="PayPal client ID"
                 name="paypal_client_id"
                 onChange={e => handleChange("paypal_client_id", e.target.value)}
-                value={
-                  config.current.paypal_client_id !== null ?
-                    config.current.paypal_client_id
-                  : config.initial ? config.initial.paypal_client_id : ""
-                }
+                value={config.current.paypal_client_id || ""}
                 required={true}
               />
               <TextInput
                 label="PayPal client secret"
                 name="paypal_client_secret"
                 onChange={e => handleChange("paypal_client_secret", e.target.value)}
-                value={
-                  config.current.paypal_client_secret !== null ?
-                    config.current.paypal_client_secret
-                  : config.initial ? config.initial.paypal_client_secret : ""
-                }
+                value={config.current.paypal_client_secret || ""}
                 required={true}
               />
               <Box>

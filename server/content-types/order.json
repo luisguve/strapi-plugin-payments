@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "payments_order",
+  "info": {
+    "singularName": "p-order",
+    "pluralName": "p-orders",
+    "displayName": "Order",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false,
+    "comment": ""
+  },
+  "attributes": {
+    "total": {
+      "type": "decimal",
+      "configurable": false
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "configurable": false
+    },
+    "confirmed": {
+      "type": "boolean",
+      "configurable": false
+    },
+    "checkout_session": {
+      "type": "string",
+      "configurable": false
+    },
+    "payment_method": {
+      "type": "enumeration",
+      "enum": [
+        "paypal",
+        "credit_card"
+      ],
+      "configurable": false
+    }
+  }
+}
