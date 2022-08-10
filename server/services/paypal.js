@@ -12,7 +12,8 @@ module.exports = {
   paypal_auth: null,
   DEFAULT_CONFIG: {
     paypal_client_id: "",
-    paypal_client_secret: ""
+    paypal_client_secret: "",
+    brand_name: ""
   },
   /**
    * Retrieve the strapi data storage for the plugin

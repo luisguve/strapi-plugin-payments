@@ -20,6 +20,7 @@ const SettingsPage = () => {
   const [config, setConfig] = useState({
     initial: null,
     current: {
+      brand_name: null,
       paypal_client_id: null,
       paypal_client_secret: null
     }
@@ -67,6 +68,7 @@ const SettingsPage = () => {
 
     let paypal_client_id = config.current.paypal_client_id !== null
     let paypal_client_secret = config.current.paypal_client_secret !== null
+    let brand_name = config.current.brand_name !== null
 
     if (paypal_client_id) {
       paypal_client_id =
@@ -76,8 +78,12 @@ const SettingsPage = () => {
       paypal_client_secret =
         config.current.paypal_client_secret !== config.initial.paypal_client_secret
     }
+    if (brand_name) {
+      brand_name =
+        config.current.brand_name !== config.initial.brand_name
+    }
     return (
-      paypal_client_id || paypal_client_secret
+      paypal_client_id || paypal_client_secret || brand_name
     )
   }
   const handleSubmit = async (e) => {
@@ -86,7 +92,8 @@ const SettingsPage = () => {
     if (
       !( // at least one of the fields should not be null
         config.current.paypal_client_id !== null ||
-        config.current.paypal_client_secret !== null
+        config.current.paypal_client_secret !== null ||
+        config.current.brand_name !== null
       )
     ) {
       return
@@ -143,6 +150,16 @@ const SettingsPage = () => {
               Current configuration:
             </Typography>
             <Typography>
+              Brand name: {" "}
+              <Typography fontWeight="bold">
+                {
+                  !config.initial ? "loading..." :
+                  config.initial.brand_name ?
+                  config.initial.brand_name : "unset"
+                }
+              </Typography>
+            </Typography>
+            <Typography>
               PayPal client ID: {" "}
               <Typography fontWeight="bold">
                 {
@@ -167,6 +184,13 @@ const SettingsPage = () => {
         <Box paddingTop={4} paddingBottom={2}>
           <form onSubmit={handleSubmit}>
             <Stack size={2}>
+              <TextInput
+                label="Brand name"
+                name="brand_name"
+                onChange={e => handleChange("brand_name", e.target.value)}
+                value={config.current.brand_name || ""}
+                required={true}
+              />
               <TextInput
                 label="PayPal client ID"
                 name="paypal_client_id"
