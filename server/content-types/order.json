@@ -12,8 +12,12 @@
     "comment": ""
   },
   "attributes": {
-    "total": {
+    "amount": {
       "type": "decimal",
+      "configurable": false
+    },
+    "createdAt": {
+      "type": "date",
       "configurable": false
     },
     "user": {
@@ -36,6 +40,18 @@
         "paypal",
         "credit_card"
       ],
+      "configurable": false
+    },
+    "payload": {
+      "type": "json",
+      "configurable": false
+    },
+    "items": {
+      "type": "json",
+      "configurable": false
+    },
+    "response": {
+      "type": "json",
       "configurable": false
     }
   }
