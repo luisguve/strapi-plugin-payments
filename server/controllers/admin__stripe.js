@@ -1,13 +1,14 @@
 'use strict'
 
 module.exports = {
-  async getStripePk(ctx) {
-    const pk = await strapi.service("plugin::payments.stripe").getStripePk()
-    ctx.body = { pk }
+  async getStripeConfig(ctx) {
+    const config = await strapi.service("plugin::payments.stripe").getConfig()
+    ctx.body = { config }
   },
-  async setStripePk(ctx) {
-    const { pk } = ctx.request.body
-    await strapi.service('plugin::payments.stripe').setStripePk(pk)
+  async setStripeConfig(ctx) {
+    const { config } = ctx.request.body
+    console.log({config})
+    await strapi.service('plugin::payments.stripe').setConfig(config)
     return { ok: true }
   }
 }

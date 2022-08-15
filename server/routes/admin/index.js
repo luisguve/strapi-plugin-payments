@@ -5,16 +5,16 @@ module.exports = {
   routes: [
     {
       method: 'GET',
-      path: '/stripe-pk',
-      handler: 'admin__stripe.getStripePk',
+      path: '/stripe',
+      handler: 'admin__stripe.getStripeConfig',
       config: {
         policies: [],
       }
     },
     {
       method: 'POST',
-      path: '/stripe-pk',
-      handler: 'admin__stripe.setStripePk',
+      path: '/stripe',
+      handler: 'admin__stripe.setStripeConfig',
       config: {
         policies: [],
       }
@@ -22,7 +22,7 @@ module.exports = {
     {
       method: 'GET',
       path: '/paypal',
-      handler: 'admin__paypal.getConfig',
+      handler: 'admin__paypal.getPaypalConfig',
       config: {
         policies: [],
       }
@@ -30,7 +30,7 @@ module.exports = {
     {
       method: 'POST',
       path: '/paypal',
-      handler: 'admin__paypal.setConfig',
+      handler: 'admin__paypal.setPaypalConfig',
       config: {
         policies: [],
       }
