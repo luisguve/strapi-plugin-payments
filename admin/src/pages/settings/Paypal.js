@@ -22,7 +22,9 @@ const SettingsPage = () => {
     current: {
       brand_name: null,
       paypal_client_id: null,
-      paypal_client_secret: null
+      paypal_client_secret: null,
+      return_url: null,
+      cancel_url: null
     }
   })
   const [sending, setSending] = useState(false)
@@ -69,6 +71,8 @@ const SettingsPage = () => {
     let paypal_client_id = config.current.paypal_client_id !== null
     let paypal_client_secret = config.current.paypal_client_secret !== null
     let brand_name = config.current.brand_name !== null
+    let return_url = config.current.return_url !== null
+    let cancel_url = config.current.return_url !== null
 
     if (paypal_client_id) {
       paypal_client_id =
@@ -82,18 +86,27 @@ const SettingsPage = () => {
       brand_name =
         config.current.brand_name !== config.initial.brand_name
     }
+    if (return_url) {
+      return_url =
+        config.current.return_url !== config.initial.return_url
+    }
+    if (cancel_url) {
+      cancel_url =
+        config.current.cancel_url !== config.initial.cancel_url
+    }
     return (
-      paypal_client_id || paypal_client_secret || brand_name
+      paypal_client_id || paypal_client_secret || brand_name || return_url || cancel_url
     )
   }
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log("submitting", {config})
     if (
       !( // at least one of the fields should not be null
         config.current.paypal_client_id !== null ||
         config.current.paypal_client_secret !== null ||
-        config.current.brand_name !== null
+        config.current.brand_name !== null ||
+        config.current.return_url !== null ||
+        config.current.cancel_url !== null
       )
     ) {
       return
@@ -154,8 +167,7 @@ const SettingsPage = () => {
               <Typography fontWeight="bold">
                 {
                   !config.initial ? "loading..." :
-                  config.initial.brand_name ?
-                  config.initial.brand_name : "unset"
+                  config.initial.brand_name || "not set"
                 }
               </Typography>
             </Typography>
@@ -165,7 +177,7 @@ const SettingsPage = () => {
                 {
                   !config.initial ? "loading..." :
                   config.initial.paypal_client_id ?
-                  config.initial.paypal_client_id.substr(0,45)+"..." : "unset"
+                  config.initial.paypal_client_id.substr(0,45)+"..." : "not set"
                 }
               </Typography>
             </Typography>
@@ -175,7 +187,25 @@ const SettingsPage = () => {
                 {
                   !config.initial ? "loading..." :
                   config.initial.paypal_client_secret ?
-                  config.initial.paypal_client_secret.substr(0,45)+"..." : "unset"
+                  config.initial.paypal_client_secret.substr(0,45)+"..." : "not set"
+                }
+              </Typography>
+            </Typography>
+            <Typography>
+              Return URL: {" "}
+              <Typography fontWeight="bold">
+                {
+                  !config.initial ? "loading..." :
+                  config.initial.return_url || "not set"
+                }
+              </Typography>
+            </Typography>
+            <Typography>
+              Cancel URL: {" "}
+              <Typography fontWeight="bold">
+                {
+                  !config.initial ? "loading..." :
+                  config.initial.cancel_url || "not set"
                 }
               </Typography>
             </Typography>
@@ -203,6 +233,22 @@ const SettingsPage = () => {
                 name="paypal_client_secret"
                 onChange={e => handleChange("paypal_client_secret", e.target.value)}
                 value={config.current.paypal_client_secret || ""}
+                required={true}
+              />
+              <TextInput
+                label="Return URL"
+                name="return_url"
+                onChange={e => handleChange("return_url", e.target.value)}
+                value={config.current.return_url || ""}
+                hint={config.current.return_url || "{http://your-app.com/paypal-payment}"}
+                required={true}
+              />
+              <TextInput
+                label="Cancel URL"
+                name="cancel_url"
+                onChange={e => handleChange("cancel_url", e.target.value)}
+                value={config.current.cancel_url || ""}
+                hint={config.current.cancel_url || "{http://your-app.com}"}
                 required={true}
               />
               <Box>

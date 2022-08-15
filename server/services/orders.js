@@ -65,20 +65,13 @@ module.exports = {
   },
   create: async function(params) {
 
-    const { user, requestOrigin, payment_method, payload, items } = params
+    const { user, payment_method, payload, items } = params
 
     if (!user) {
       return {
         error: true,
         status: "badRequest",
         msg: "User must be authenticated"
-      }
-    }
-    if (!requestOrigin) {
-      return {
-        error: true,
-        status: "badRequest",
-        msg: "A request origin must be specified"
       }
     }
     if (!payment_method) {
@@ -113,11 +106,14 @@ module.exports = {
     if (payment_method === "credit_card") {
       // Pay with credit card: create order with Stripe
       const stripe = await strapi.service("plugin::payments.stripe").getStripeClient()
+      const config = await strapi.service("plugin::payments.stripe").getConfig()
       if (!stripe) {
+        console.log("Stripe is not properly configured")
+        console.log({config})
         return {
           error: true,
           status: "badRequest",
-          msg: "Stripe private key is unset"
+          msg: "Stripe is not configured"
         }
       }
       const session = await stripe.checkout.sessions.create({
@@ -137,8 +133,8 @@ module.exports = {
         }),
         customer_email: user.email,
         mode: "payment",
-        success_url: `${request_origin}/payment?checkout_session={CHECKOUT_SESSION_ID}`,
-        cancel_url: request_origin,
+        success_url: config.success_url,
+        cancel_url: config.cancel_url,
       })
       checkout_session = session.id
     } else {
@@ -171,8 +167,8 @@ module.exports = {
           brand_name: config.brand_name,
           landing_page: 'NO_PREFERENCE',
           user_action: 'PAY_NOW',
-          return_url: `${request_origin}/paypal-payment`,
-          cancel_url: request_origin
+          return_url: config.return_url,
+          cancel_url: config.cancel_url
         }
       }
       // https://api-m.sandbox.paypal.com/v2/checkout/orders [POST]
@@ -204,7 +200,6 @@ module.exports = {
     await strapi.entityService.create("plugin::payments.p-order", {
       data: {
         amount: total,
-        createdAt: new Date(),
         user: user.id,
         confirmed: false,
         checkout_session,

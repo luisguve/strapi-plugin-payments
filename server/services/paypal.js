@@ -13,10 +13,12 @@ module.exports = {
   DEFAULT_CONFIG: {
     paypal_client_id: "",
     paypal_client_secret: "",
-    brand_name: ""
+    brand_name: "",
+    return_url: "",
+    cancel_url: ""
   },
   /**
-   * Retrieve the strapi data storage for the plugin
+   * Retrieve the strapi data storage for this portion of the plugin
    */
   getStore: function() {
     return strapi.store({
@@ -27,12 +29,15 @@ module.exports = {
   isValidConfig: function(config) {
     return (
       config.paypal_client_id     !== "" &&
-      config.paypal_client_secret !== ""
+      config.paypal_client_secret !== "" &&
+      config.brand_name           !== "" &&
+      config.return_url           !== "" &&
+      config.cancel_url           !== ""
     )
   },
   getConfig: async function() {
     const pluginStore = this.getStore()
-    const config = await pluginStore.get({ key: STORE_KEY})
+    const config = await pluginStore.get({ key: STORE_KEY })
     if (!config) {
       return this.DEFAULT_CONFIG
     }
@@ -51,8 +56,13 @@ module.exports = {
     this.setPaypalAuth(newConfig)
   },
   getPaypalAuth: async function() {
+    const config = await this.getConfig()
+
+    if (!this.isValidConfig(config)) {
+      return null
+    }
+
     if (!this.paypal_auth) {
-      const config = await this.getConfig()
       this.setPaypalAuth(config)
     }
     return this.paypal_auth
