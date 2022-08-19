@@ -16,10 +16,6 @@
       "type": "decimal",
       "configurable": false
     },
-    "createdAt": {
-      "type": "date",
-      "configurable": false
-    },
     "user": {
       "type": "relation",
       "relation": "oneToOne",
