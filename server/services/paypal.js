@@ -15,7 +15,8 @@ module.exports = {
     paypal_client_secret: "",
     brand_name: "",
     return_url: "",
-    cancel_url: ""
+    cancel_url: "",
+    production_mode: false
   },
   /**
    * Retrieve the strapi data storage for this portion of the plugin

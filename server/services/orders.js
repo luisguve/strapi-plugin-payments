@@ -1,5 +1,7 @@
 'use strict';
 
+const axios = require("axios")
+
 /**
  * Given a dollar amount number, convert it to it's value in cents
  * @param number 
@@ -7,6 +9,9 @@
 const fromDecimalToInt = (number) => parseInt(number * 100)
 
 const PAYPAL_API = 'https://api-m.sandbox.paypal.com'; // Live https://api-m.paypal.com
+
+const SANDBOX_PAYPAL_API = 'https://api-m.sandbox.paypal.com'
+const LIVE_PAYPAL_API = 'https://api-m.paypal.com'
 
 module.exports = {
   find: async function(user) {
@@ -136,6 +141,7 @@ module.exports = {
         success_url: config.success_url,
         cancel_url: config.cancel_url,
       })
+      data = session
       checkout_session = session.id
     } else {
       // Pay with PayPal: create order with PayPal
@@ -173,7 +179,8 @@ module.exports = {
       }
       // https://api-m.sandbox.paypal.com/v2/checkout/orders [POST]
 
-      const url = `${PAYPAL_API}/v2/checkout/orders`
+      const url = (config.poduction_mode ? PAYPAL_API : SANDBOX_PAYPAL_API)
+        .concat("/v2/checkout/orders")
 
       const user = `${paypalAuth.username}:${paypalAuth.password}`
 
@@ -256,7 +263,7 @@ module.exports = {
     }
 
     if (order.confirmed) {
-      return { order }
+      return order
     }
 
     if (order.payment_method === "credit_card") {
@@ -303,7 +310,10 @@ module.exports = {
       let data
 
       let orderCaptured = false
-      const url = `${PAYPAL_API}/v2/checkout/orders/${checkout_session}/capture`
+
+      const url = (config.poduction_mode ? PAYPAL_API : SANDBOX_PAYPAL_API)
+        .concat(`/v2/checkout/orders/${checkout_session}/capture`)
+
       try {
         const user = `${paypalAuth.username}:${paypalAuth.password}`
         const result = await axios.post(url, {}, {

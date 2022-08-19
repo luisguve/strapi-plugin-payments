@@ -14,6 +14,7 @@ import { Button } from '@strapi/design-system/Button';
 import { Tooltip } from '@strapi/design-system/Tooltip';
 import { Stack } from '@strapi/design-system/Stack';
 import { Textarea } from '@strapi/design-system/Textarea';
+import { Switch } from '@strapi/design-system/Switch';
 import axios from "../../utils/axiosInstance"
 
 const SettingsPage = () => {
@@ -24,7 +25,8 @@ const SettingsPage = () => {
       paypal_client_id: null,
       paypal_client_secret: null,
       return_url: null,
-      cancel_url: null
+      cancel_url: null,
+      production_mode: null
     }
   })
   const [sending, setSending] = useState(false)
@@ -72,7 +74,8 @@ const SettingsPage = () => {
     let paypal_client_secret = config.current.paypal_client_secret !== null
     let brand_name = config.current.brand_name !== null
     let return_url = config.current.return_url !== null
-    let cancel_url = config.current.return_url !== null
+    let cancel_url = config.current.cancel_url !== null
+    let production_mode = config.current.production_mode !== null
 
     if (paypal_client_id) {
       paypal_client_id =
@@ -94,8 +97,13 @@ const SettingsPage = () => {
       cancel_url =
         config.current.cancel_url !== config.initial.cancel_url
     }
+    if (production_mode) {
+      production_mode =
+        config.current.production_mode !== config.initial.production_mode
+    }
     return (
-      paypal_client_id || paypal_client_secret || brand_name || return_url || cancel_url
+      paypal_client_id || paypal_client_secret || brand_name || return_url || cancel_url ||
+      production_mode
     )
   }
   const handleSubmit = async (e) => {
@@ -106,7 +114,8 @@ const SettingsPage = () => {
         config.current.paypal_client_secret !== null ||
         config.current.brand_name !== null ||
         config.current.return_url !== null ||
-        config.current.cancel_url !== null
+        config.current.cancel_url !== null ||
+        config.current.production_mode !== null
       )
     ) {
       return
@@ -209,6 +218,15 @@ const SettingsPage = () => {
                 }
               </Typography>
             </Typography>
+            <Typography>
+              Mode: {" "}
+              <Typography fontWeight="bold">
+                {
+                  !config.initial ? "loading..." :
+                  config.initial.production_mode ? "production" : "development"
+                }
+              </Typography>
+            </Typography>
           </Stack>
         </Stack>
         <Box paddingTop={4} paddingBottom={2}>
@@ -251,6 +269,17 @@ const SettingsPage = () => {
                 hint={config.current.cancel_url || "{http://your-app.com}"}
                 required={true}
               />
+              <Stack horizontal size={3}>
+                <Typography>Production mode</Typography>
+                <Switch
+                  label="Production mode"
+                  selected={config.current.production_mode == true}
+                  onChange={() => {
+                    handleChange("production_mode", !(config.current.production_mode==true))
+                  }}
+                  visibleLabels
+                />
+              </Stack>
               <Box>
                 <Button
                   type="submit"
