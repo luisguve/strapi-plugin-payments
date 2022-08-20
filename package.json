@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-payments",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "keywords": [
     "strapi",
     "strapi-plugin",
@@ -10,7 +10,7 @@
     "api",
     "backend"
   ],
-  "description": "Strapi plugin to accept payments easily",
+  "description": "Strapi plugin to accept payments with credit card and/or paypal",
   "strapi": {
     "displayName": "Payments",
     "name": "payments",
