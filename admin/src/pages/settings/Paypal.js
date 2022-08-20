@@ -205,7 +205,8 @@ const SettingsPage = () => {
               <Typography fontWeight="bold">
                 {
                   !config.initial ? "loading..." :
-                  config.initial.return_url || "not set"
+                  config.initial.return_url ?
+                  config.initial.return_url + "?token={TOKEN_ID}" : "not set"
                 }
               </Typography>
             </Typography>
@@ -258,7 +259,10 @@ const SettingsPage = () => {
                 name="return_url"
                 onChange={e => handleChange("return_url", e.target.value)}
                 value={config.current.return_url || ""}
-                hint={config.current.return_url || "{http://your-app.com/paypal-payment}"}
+                hint={
+                  (config.current.return_url || "{http://your-app.com/paypal-payment}") +
+                  "    ?token={TOKEN_ID}"
+                }
                 required={true}
               />
               <TextInput
