@@ -7,7 +7,6 @@ module.exports = {
   },
   async setStripeConfig(ctx) {
     const { config } = ctx.request.body
-    console.log({config})
     await strapi.service('plugin::payments.stripe').setConfig(config)
     return { ok: true }
   }
