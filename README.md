@@ -10,6 +10,8 @@ Integrate with any other plugin or custom controller and create orders using a s
 - Use available services to find, create and confirm orders.
 - Configure everything from the settings dashboard.
 
+## [Video tutorial](https://youtu.be/prG1UJHZZQ8)
+
 ## Requirements
 
 - Stripe account
